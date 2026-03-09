@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 33% 98%;
+    --foreground: 24 10% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 24 10% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 24 10% 10%;
+    --primary: 95 25% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 60 15% 92%;
+    --secondary-foreground: 24 10% 10%;
+    --muted: 60 15% 92%;
+    --muted-foreground: 24 8% 45%;
+    --accent: 60 20% 92%;
+    --accent-foreground: 24 10% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 90 15% 88%;
+    --input: 90 15% 88%;
+    --ring: 95 25% 35%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 24 10% 8%;
+    --foreground: 40 10% 96%;
+    --card: 24 10% 11%;
+    --card-foreground: 40 10% 96%;
+    --popover: 24 10% 11%;
+    --popover-foreground: 40 10% 96%;
+    --primary: 95 30% 50%;
+    --primary-foreground: 24 10% 8%;
+    --secondary: 24 10% 18%;
+    --secondary-foreground: 40 10% 96%;
+    --muted: 24 10% 18%;
+    --muted-foreground: 40 8% 60%;
+    --accent: 24 10% 18%;
+    --accent-foreground: 40 10% 96%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 24 12% 20%;
+    --input: 24 12% 20%;
+    --ring: 95 30% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Transiciones suaves para enlaces y botones */
+a, button {
+  transition-property: color, background-color, border-color, transform, box-shadow, opacity;
+}

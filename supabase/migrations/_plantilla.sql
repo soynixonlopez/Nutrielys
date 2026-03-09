@@ -1,0 +1,10 @@
+-- Plantilla para nuevas migraciones.
+-- Copia este archivo, renómbralo (ej. 002_cupones.sql), escribe tus cambios y ejecútalo en SQL Editor.
+--
+-- Ejemplo: añadir columna
+-- ALTER TABLE public.products ADD COLUMN IF NOT EXISTS weight_grams INTEGER;
+--
+-- Ejemplo: nueva tabla con RLS
+-- CREATE TABLE public.cupones (...);
+-- ALTER TABLE public.cupones ENABLE ROW LEVEL SECURITY;
+-- CREATE POLICY "..." ON public.cupones ...
