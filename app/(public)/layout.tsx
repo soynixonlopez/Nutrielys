@@ -10,9 +10,14 @@ export default async function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClient();
-  const settings = await getSiteSettings(supabase);
-  const whatsappNumber = settings?.whatsapp_number ?? "50760000000";
+  let whatsappNumber = "50760000000";
+  try {
+    const supabase = await createClient();
+    const settings = await getSiteSettings(supabase);
+    whatsappNumber = settings?.whatsapp_number ?? whatsappNumber;
+  } catch (err) {
+    console.error("Layout: error cargando settings (red/timeout):", err);
+  }
 
   return (
     <CartProvider>

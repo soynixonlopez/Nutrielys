@@ -17,11 +17,13 @@ import type { ProductsSort } from "@/supabase/queries/products";
 interface ProductsCatalogProps {
   categories: Category[];
   whatsappNumber: string;
+  /** Productos cargados desde el servidor (creados en el panel). Se muestran al inicio. */
+  initialProducts?: Product[];
 }
 
-export function ProductsCatalog({ categories, whatsappNumber }: ProductsCatalogProps) {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+export function ProductsCatalog({ categories, whatsappNumber, initialProducts = [] }: ProductsCatalogProps) {
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [categoryId, setCategoryId] = useState<string>("all");
   const [sort, setSort] = useState<ProductsSort>("newest");
@@ -43,8 +45,13 @@ export function ProductsCatalog({ categories, whatsappNumber }: ProductsCatalogP
   }, [search, categoryId, sort, onlyFeatured, onlyInStock]);
 
   useEffect(() => {
+    const isDefault = !search.trim() && (!categoryId || categoryId === "all") && !onlyFeatured && !onlyInStock && sort === "newest";
+    if (isDefault) {
+      setProducts(initialProducts);
+      return;
+    }
     fetchProducts();
-  }, [fetchProducts]);
+  }, [search, categoryId, sort, onlyFeatured, onlyInStock, initialProducts, fetchProducts]);
 
   return (
     <div className="space-y-6">

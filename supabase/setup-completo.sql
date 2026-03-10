@@ -276,6 +276,45 @@ SELECT 'Sandía deshidratada', 'sandia-deshidratada', 'Gomitas de sandía deshid
 ON CONFLICT (slug) DO NOTHING;
 
 -- =============================================================================
+-- STORAGE: bucket para imágenes de productos (admin sube, público lee)
+-- =============================================================================
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('products', 'products', true)
+ON CONFLICT (id) DO UPDATE SET public = true;
+
+DROP POLICY IF EXISTS "Public read products" ON storage.objects;
+CREATE POLICY "Public read products"
+ON storage.objects FOR SELECT
+USING (bucket_id = 'products');
+
+DROP POLICY IF EXISTS "Admin upload products" ON storage.objects;
+CREATE POLICY "Admin upload products"
+ON storage.objects FOR INSERT
+TO authenticated
+WITH CHECK (
+  bucket_id = 'products'
+  AND EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
+);
+
+DROP POLICY IF EXISTS "Admin update products" ON storage.objects;
+CREATE POLICY "Admin update products"
+ON storage.objects FOR UPDATE
+TO authenticated
+USING (
+  bucket_id = 'products'
+  AND EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
+);
+
+DROP POLICY IF EXISTS "Admin delete products" ON storage.objects;
+CREATE POLICY "Admin delete products"
+ON storage.objects FOR DELETE
+TO authenticated
+USING (
+  bucket_id = 'products'
+  AND EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
+);
+
+-- =============================================================================
 -- Admin: asignar rol admin al usuario (info@nutrielys.com)
 -- Ejecutar después de crear el usuario en Authentication → Users
 -- =============================================================================

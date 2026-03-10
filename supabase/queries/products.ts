@@ -86,6 +86,7 @@ export async function getProductBySlug(
   } as ProductWithImages;
 }
 
+/** Productos destacados: primero featured, luego el resto activos (para home). */
 export async function getFeaturedProducts(
   supabase: Awaited<ReturnType<typeof import("../server").createClient>>,
   limit = 8
@@ -121,6 +122,7 @@ export async function getFeaturedProducts(
 
   return [...featured, ...((fallbackData ?? []) as Product[])];
 }
+
 
 export async function getRelatedProducts(
   supabase: Awaited<ReturnType<typeof import("../server").createClient>>,

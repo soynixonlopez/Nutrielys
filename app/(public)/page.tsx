@@ -55,11 +55,20 @@ const MAIN_OBJECTIVES = [
 ];
 
 export default async function HomePage() {
-  const supabase = await createClient();
-  const [settings, featured] = await Promise.all([
-    getSiteSettings(supabase),
-    getFeaturedProducts(supabase, 8),
-  ]);
+  let settings: Awaited<ReturnType<typeof getSiteSettings>> = null;
+  let featured: Awaited<ReturnType<typeof getFeaturedProducts>> = [];
+
+  try {
+    const supabase = await createClient();
+    const [settingsData, featuredData] = await Promise.all([
+      getSiteSettings(supabase),
+      getFeaturedProducts(supabase, 8),
+    ]);
+    settings = settingsData;
+    featured = featuredData ?? [];
+  } catch (err) {
+    console.error("Home: error cargando datos de Supabase (red/timeout):", err);
+  }
 
   const heroTitle = settings?.hero_title ?? "Alimentación saludable que cuida tu bienestar";
   const heroSubtitle =
@@ -163,7 +172,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-6xl px-3 sm:px-4">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <h2 className="font-serif text-2xl font-medium text-sage-900 md:text-3xl">
-              Productos destacados
+              Productos disponibles
             </h2>
             <Button variant="outline" asChild className="transition-transform hover:scale-105">
               <Link href="/productos">Ver todos</Link>
@@ -171,7 +180,7 @@ export default async function HomePage() {
           </div>
           {featured.length === 0 ? (
             <p className="mt-10 text-center text-sage-600">
-              Pronto tendremos productos destacados. Revisa el catálogo.
+              Aún no hay productos publicados. Crea productos desde el panel de administración para que aparezcan aquí.
             </p>
           ) : (
             <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
