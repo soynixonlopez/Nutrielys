@@ -30,13 +30,35 @@ export function AdminLoginForm() {
     setError(null);
     const supabase = createClient();
     const { error: signError } = await supabase.auth.signInWithPassword({
-      email: data.email,
+      email: data.email.trim().toLowerCase(),
       password: data.password,
     });
     if (signError) {
       setError(signError.message === "Invalid login credentials" ? "Email o contraseña incorrectos." : signError.message);
       return;
     }
+
+    const { data: userData } = await supabase.auth.getUser();
+    const userId = userData.user?.id;
+    if (!userId) {
+      setError("No se pudo validar tu sesión. Intenta nuevamente.");
+      return;
+    }
+
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", userId)
+      .single();
+
+    if (profileError || !profile || profile.role !== "admin") {
+      await supabase.auth.signOut();
+      setError(
+        "Tu cuenta existe, pero no tiene permisos de administrador. Debes asignar role='admin' en la tabla profiles."
+      );
+      return;
+    }
+
     router.push("/admin");
     router.refresh();
   };

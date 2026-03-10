@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ShoppingBag, Menu } from "lucide-react";
 import { useState } from "react";
@@ -21,13 +22,23 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-sage-200/60 bg-cream-50/98 shadow-sm shadow-sage-200/30 backdrop-blur supports-[backdrop-filter]:bg-cream-50/90">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-3 sm:px-4 md:h-16">
+    <header className="sticky top-0 z-50 w-full border-b border-sage-200/60 bg-cream-50/95 shadow-sm shadow-sage-200/30 backdrop-blur supports-[backdrop-filter]:bg-cream-50/85">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-3 sm:px-4 md:h-20">
         <Link
           href="/"
-          className="font-serif text-xl font-medium text-sage-800 transition-all duration-200 hover:text-sage-600 md:text-2xl"
+          className="inline-flex items-center rounded-md transition-opacity duration-200 hover:opacity-90"
+          aria-label="Nutrielys - Ir al inicio"
         >
-          Nutrielys
+          <Image
+            src="/logo/logo.png"
+            alt="Nutrielys"
+            width={152}
+            height={148}
+            priority
+            quality={100}
+            unoptimized
+            className="h-12 w-auto md:h-14"
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
@@ -46,6 +57,9 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <Button asChild size="sm" className="hidden rounded-full px-4 md:inline-flex">
+            <Link href="/productos">Comprar ahora</Link>
+          </Button>
           <Button variant="ghost" size="icon" asChild className="relative">
             <Link href="/carrito" aria-label="Ver carrito">
               <ShoppingBag className="h-5 w-5" />
@@ -94,6 +108,11 @@ export function Header() {
               <ShoppingBag className="h-4 w-4" />
               Carrito {totalItems > 0 && `(${totalItems})`}
             </Link>
+            <Button asChild size="sm" className="mt-2">
+              <Link href="/productos" onClick={() => setMobileOpen(false)}>
+                Comprar ahora
+              </Link>
+            </Button>
           </nav>
         </div>
       )}

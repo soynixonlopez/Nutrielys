@@ -90,7 +90,7 @@ export async function getFeaturedProducts(
   supabase: Awaited<ReturnType<typeof import("../server").createClient>>,
   limit = 8
 ): Promise<Product[]> {
-  const { data, error } = await supabase
+  const { data: featuredData, error } = await supabase
     .from("products")
     .select("*, category:categories(id, name, slug)")
     .eq("is_active", true)
@@ -99,7 +99,27 @@ export async function getFeaturedProducts(
     .limit(limit);
 
   if (error) throw error;
-  return (data ?? []) as Product[];
+
+  const featured = (featuredData ?? []) as Product[];
+  if (featured.length >= limit) return featured;
+
+  const excludedIds = featured.map((p) => p.id);
+  let fallbackQuery = supabase
+    .from("products")
+    .select("*, category:categories(id, name, slug)")
+    .eq("is_active", true)
+    .order("created_at", { ascending: false })
+    .limit(limit - featured.length);
+
+  if (excludedIds.length > 0) {
+    const quotedIds = excludedIds.map((id) => `"${id}"`).join(",");
+    fallbackQuery = fallbackQuery.not("id", "in", `(${quotedIds})`);
+  }
+
+  const { data: fallbackData, error: fallbackError } = await fallbackQuery;
+  if (fallbackError) throw fallbackError;
+
+  return [...featured, ...((fallbackData ?? []) as Product[])];
 }
 
 export async function getRelatedProducts(

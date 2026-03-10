@@ -67,3 +67,30 @@ html {
 a, button {
   transition-property: color, background-color, border-color, transform, box-shadow, opacity;
 }
+
+/* Animaciones decorativas suaves */
+@keyframes soft-float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-soft-float {
+  animation: soft-float 6s ease-in-out infinite;
+}
+
+.animate-soft-float-delay {
+  animation: soft-float 7s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-soft-float,
+  .animate-soft-float-delay {
+    animation: none;
+  }
+}

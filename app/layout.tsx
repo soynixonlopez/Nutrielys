@@ -23,6 +23,11 @@ export const metadata: Metadata = {
   description:
     "Frutas y vegetales deshidratados con el sabor de Panamá. Snacks saludables, naturales y deliciosos.",
   keywords: ["frutas deshidratadas", "snacks saludables", "Panamá", "nutrición", "natural"],
+  icons: {
+    icon: "/logo/logo.png",
+    shortcut: "/logo/logo.png",
+    apple: "/logo/logo.png",
+  },
   openGraph: {
     type: "website",
   },
