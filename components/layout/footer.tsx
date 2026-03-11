@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Instagram, MapPin, MessageCircle, Clock3, Leaf } from "lucide-react";
+import { Instagram, Facebook, MapPin, MessageCircle, Clock3 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -77,7 +77,6 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <Link href="/" className="inline-flex items-center gap-2 font-serif text-xl font-medium text-sage-800">
-              <Leaf className="h-5 w-5 text-sage-600" />
               Nutrielys
             </Link>
             <p className="text-sm text-sage-700/90">
@@ -130,7 +129,7 @@ export function Footer() {
             </p>
             <div className="mt-4 flex items-center gap-3">
               <a
-                href="https://instagram.com"
+                href="https://instagram.com/nutrielysfood"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Instagram Nutrielys"
@@ -139,13 +138,13 @@ export function Footer() {
                 <Instagram className="h-4 w-4" />
               </a>
               <a
-                href="https://wa.me/50760000000"
+                href="https://facebook.com/nutrielysfood"
                 target="_blank"
                 rel="noreferrer"
-                aria-label="WhatsApp Nutrielys"
+                aria-label="Facebook Nutrielys"
                 className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-sage-300 bg-white text-sage-700 transition-colors hover:bg-sage-100"
               >
-                <MessageCircle className="h-4 w-4" />
+                <Facebook className="h-4 w-4" />
               </a>
             </div>
           </div>

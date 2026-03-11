@@ -58,11 +58,11 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <Button asChild size="sm" className="hidden rounded-full px-4 md:inline-flex">
-            <Link href="/productos">Comprar ahora</Link>
+            <Link href="/productos">Ver productos</Link>
           </Button>
-          <Button variant="ghost" size="icon" asChild className="relative">
+          <Button variant="ghost" size="icon" asChild className="relative h-11 w-11 md:h-12 md:w-12">
             <Link href="/carrito" aria-label="Ver carrito">
-              <ShoppingBag className="h-5 w-5" />
+              <ShoppingBag className="h-6 w-6 md:h-7 md:w-7" />
               {totalItems > 0 && (
                 <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-sage-600 text-xs font-medium text-white">
                   {totalItems > 99 ? "99+" : totalItems}
@@ -110,7 +110,7 @@ export function Header() {
             </Link>
             <Button asChild size="sm" className="mt-2">
               <Link href="/productos" onClick={() => setMobileOpen(false)}>
-                Comprar ahora
+                Ver productos
               </Link>
             </Button>
           </nav>

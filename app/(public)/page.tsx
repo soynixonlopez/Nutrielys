@@ -22,9 +22,10 @@ import { SafeImage } from "@/components/ui/safe-image";
 
 export const dynamic = "force-dynamic";
 
-const HERO_IMAGE = "/img/bannersection.png";
-const BENEFITS_IMAGE = "/img/benefitsnutrielys.png";
-const ABOUT_IMAGE = "/img/sobrenutrielys.png";
+const HERO_IMAGE = "/img/bannermain.png";
+const BENEFITS_IMAGE = "/img/beneficiosnutrielys.jpg";
+const ABOUT_IMAGE = "/img/sobrenutrielys.jpg";
+const CONTACT_EMAIL = "info@nutrileys.com";
 
 const TESTIMONIALS = [
   {
@@ -243,7 +244,7 @@ export default async function HomePage() {
                     src={BENEFITS_IMAGE}
                     alt="Beneficios de los productos Nutrielys"
                     fill
-                    className="object-cover"
+                    className="object-cover object-center"
                     sizes="(max-width: 1024px) 100vw, 36vw"
                   />
                 </div>
@@ -310,7 +311,7 @@ export default async function HomePage() {
               src={ABOUT_IMAGE}
               alt="Equipo preparando snacks naturales"
               fill
-              className="object-cover"
+              className="object-cover object-center"
               sizes="(max-width: 1024px) 100vw, 40vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/5 to-transparent" />
@@ -367,28 +368,30 @@ export default async function HomePage() {
                 Newsletter
               </p>
               <h2 className="mt-4 font-serif text-2xl font-medium text-white md:text-3xl">
-                Suscríbete y recibe novedades directo en tu correo
+                Recibe promociones en tu correo
               </h2>
-              <p className="mt-3 max-w-xl text-sage-100">
-                Nuevo producto, promociones y recomendaciones saludables. Sin rodeos y sin spam.
-              </p>
+              <p className="mt-3 max-w-xl text-sage-100">Escribe tu correo y presiona el botón para suscribirte.</p>
             </div>
 
-            <form className="rounded-2xl border border-white/25 bg-white/10 p-4 md:p-5">
-              <label className="text-sm font-medium text-white" htmlFor="newsletter-email">
-                Correo electrónico
-              </label>
+            <form
+              action={`https://formsubmit.co/${CONTACT_EMAIL}`}
+              method="POST"
+              className="rounded-2xl border border-white/25 bg-white/10 p-4 md:p-5"
+            >
+              <input type="hidden" name="_subject" value="Nueva suscripción Newsletter - Nutrielys" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
               <Input
                 id="newsletter-email"
+                name="email"
                 type="email"
                 required
-                placeholder="tu@correo.com"
+                placeholder="Ingresa tu correo"
                 className="mt-2 h-11 border-white/30 bg-white/95 text-sage-900 placeholder:text-sage-500"
               />
               <Button size="lg" className="mt-3 h-11 w-full bg-white px-6 text-sage-900 hover:bg-sage-100">
-                Quiero novedades
+                Suscribirme
               </Button>
-              <p className="mt-3 text-center text-xs text-sage-100/95">También te atendemos por WhatsApp.</p>
             </form>
           </div>
         </div>

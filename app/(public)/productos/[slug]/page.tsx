@@ -134,7 +134,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
             </div>
           )}
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-4">
             <ProductDetailClient
               product={product}
               whatsappNumber={whatsappNumber}

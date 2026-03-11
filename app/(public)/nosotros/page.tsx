@@ -1,5 +1,15 @@
 import Link from "next/link";
-import { Leaf, Heart, Eye, CheckCircle2 } from "lucide-react";
+import {
+  Leaf,
+  Heart,
+  Eye,
+  CheckCircle2,
+  ShieldCheck,
+  Activity,
+  Lightbulb,
+  Handshake,
+  Recycle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SafeImage } from "@/components/ui/safe-image";
 
@@ -8,13 +18,41 @@ export const metadata = {
   description: "Conoce la historia y la misión de Nutrielys. Snacks naturales y saludables desde Panamá.",
 };
 
-const ABOUT_IMAGE = "/img/sobrenutrielysbanner.png";
-const SUPPORT_IMAGE = "/img/sobrenutrielys.png";
+const ABOUT_IMAGE = "/img/sobrenutrielysbanner.jpg";
+const SUPPORT_IMAGE = "/img/sobrenutri.jpg";
 
 const HIGHLIGHTS = [
   "Alimentos deshidratados naturales y nutritivos.",
   "Aprovechamiento responsable para reducir merma agrícola.",
   "Calidad, innovación y sostenibilidad en cada producto.",
+];
+
+const VALUES = [
+  {
+    name: "Calidad",
+    description: "Seleccionamos cuidadosamente nuestros ingredientes para garantizar productos seguros y nutritivos.",
+    icon: ShieldCheck,
+  },
+  {
+    name: "Salud",
+    description: "Promovemos una alimentación equilibrada basada en ingredientes naturales.",
+    icon: Activity,
+  },
+  {
+    name: "Innovación",
+    description: "Buscamos constantemente nuevas formas de transformar los alimentos de manera saludable.",
+    icon: Lightbulb,
+  },
+  {
+    name: "Responsabilidad",
+    description: "Trabajamos con compromiso hacia nuestros clientes, la comunidad y el medio ambiente.",
+    icon: Handshake,
+  },
+  {
+    name: "Sostenibilidad",
+    description: "Aprovechamos los recursos alimentarios de manera responsable para reducir el desperdicio.",
+    icon: Recycle,
+  },
 ];
 
 export default function NosotrosPage() {
@@ -25,7 +63,7 @@ export default function NosotrosPage() {
           src={ABOUT_IMAGE}
           alt="Frutas y snacks naturales"
           fill
-          className="object-cover"
+          className="object-cover object-[center_72%]"
           sizes="(max-width: 768px) 100vw, 1152px"
           priority
         />
@@ -66,7 +104,7 @@ export default function NosotrosPage() {
             src={SUPPORT_IMAGE}
             alt="Proceso de alimentos deshidratados Nutrielys"
             fill
-            className="object-cover"
+            className="object-cover object-center"
             sizes="(max-width: 1024px) 100vw, 40vw"
           />
         </div>
@@ -94,6 +132,29 @@ export default function NosotrosPage() {
             la nutrición y la calidad de vida.
           </p>
         </article>
+      </section>
+
+      <section className="mt-8 rounded-3xl border border-sage-200/70 bg-white p-6 shadow-sm md:p-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.14em] text-sage-600">Valores de Nutrielys</p>
+        <h3 className="mt-2 font-serif text-2xl text-sage-900 md:text-3xl">Nuestros principios</h3>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {VALUES.map((value, index) => (
+            <article
+              key={value.name}
+              className={`rounded-2xl border border-sage-200/70 bg-cream-50/60 p-4 ${
+                index === VALUES.length - 1 ? "md:col-span-2" : ""
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-sage-100 text-sage-700">
+                  <value.icon className="h-4 w-4" />
+                </span>
+                <p className="font-semibold text-sage-900">{value.name}</p>
+              </div>
+              <p className="mt-1 text-sm leading-relaxed text-sage-700">{value.description}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="mt-8 overflow-hidden rounded-3xl border border-sage-200/60 bg-gradient-to-br from-sage-700 to-sage-800 p-6 text-white md:p-8">

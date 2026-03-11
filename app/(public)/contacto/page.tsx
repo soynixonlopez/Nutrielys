@@ -1,4 +1,4 @@
-import { MessageCircle, MapPin, Send } from "lucide-react";
+import { MessageCircle, MapPin, Send, Instagram, Facebook } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/supabase/server";
 import { getSiteSettings } from "@/supabase/queries/site-settings";
@@ -15,6 +15,9 @@ function normalizeWhatsApp(phone: string): string {
   const digits = phone.replace(/\D/g, "");
   return digits.startsWith("0") ? digits.slice(1) : digits;
 }
+
+const INSTAGRAM_URL = "https://instagram.com/nutrielysfood";
+const FACEBOOK_URL = "https://facebook.com/nutrielysfood";
 
 export default async function ContactoPage() {
   const supabase = await createClient();
@@ -56,6 +59,30 @@ export default async function ContactoPage() {
               <p className="mt-2 text-sm text-sage-700">
                 Panamá. Envíos según disponibilidad. Te confirmamos por WhatsApp.
               </p>
+            </div>
+            <div className="rounded-2xl border border-sage-200/60 bg-white p-6 shadow-sm">
+              <h2 className="font-semibold text-sage-900">Redes sociales</h2>
+              <p className="mt-2 text-sm text-sage-700">Síguenos como @nutrielysfood en Instagram y Facebook.</p>
+              <div className="mt-4 flex items-center gap-3">
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram Nutrielys"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-sage-300 bg-white text-sage-700 transition-colors hover:bg-sage-100"
+                >
+                  <Instagram className="h-4 w-4" />
+                </a>
+                <a
+                  href={FACEBOOK_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Facebook Nutrielys"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-sage-300 bg-white text-sage-700 transition-colors hover:bg-sage-100"
+                >
+                  <Facebook className="h-4 w-4" />
+                </a>
+              </div>
             </div>
           </div>
           <div className="rounded-2xl border border-sage-200/60 bg-white p-6 shadow-sm md:p-8 lg:col-span-7">
