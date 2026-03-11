@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/supabase/server";
+import { createOrderSchema } from "@/lib/validations/order";
 
 export const dynamic = "force-dynamic";
 
@@ -7,29 +8,24 @@ export const dynamic = "force-dynamic";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { customer_name, customer_phone, customer_notes, items } = body as {
-      customer_name: string;
-      customer_phone: string;
-      customer_notes?: string;
-      items: Array<{ product_id?: string; product_name_snapshot: string; price_snapshot: number; quantity: number }>;
-    };
-
-    if (!customer_name?.trim() || !customer_phone?.trim() || !Array.isArray(items) || items.length === 0) {
+    const parsed = createOrderSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Faltan nombre, teléfono o ítems" },
+        { error: parsed.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
 
+    const { customer_name, customer_phone, customer_notes, items } = parsed.data;
     const total = items.reduce((sum, i) => sum + i.price_snapshot * i.quantity, 0);
 
     const supabase = await createClient();
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert({
-        customer_name: customer_name.trim(),
-        customer_phone: customer_phone.trim(),
-        customer_notes: customer_notes?.trim() || null,
+        customer_name,
+        customer_phone,
+        customer_notes: customer_notes ?? null,
         total,
         status: "pending",
       })

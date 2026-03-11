@@ -28,8 +28,9 @@ export async function getProducts(
     query = query.eq("category_id", filters.categoryId);
   }
   if (filters.search?.trim()) {
+    const searchTerm = filters.search.trim().slice(0, 200);
     query = query.or(
-      `name.ilike.%${filters.search.trim()}%,short_description.ilike.%${filters.search.trim()}%,description.ilike.%${filters.search.trim()}%`
+      `name.ilike.%${searchTerm}%,short_description.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`
     );
   }
   if (filters.isFeatured !== undefined) {

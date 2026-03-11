@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const CONTACT_EMAIL = "info@nutrileys.com";
+const CONTACT_EMAIL = "info@nutrielys.com";
 
 export function ContactForm() {
   return (

@@ -11,6 +11,7 @@ import {
   Star,
   CheckCircle2,
   Mail,
+  Instagram,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,6 +27,8 @@ const HERO_IMAGE = "/img/bannermain.png";
 const BENEFITS_IMAGE = "/img/beneficiosnutrielys.jpg";
 const ABOUT_IMAGE = "/img/sobrenutrielys.jpg";
 const CONTACT_EMAIL = "info@nutrileys.com";
+/** URL del perfil de Instagram del negocio. Cámbiala por la de tu cuenta. */
+const INSTAGRAM_URL = "https://www.instagram.com/nutrielys/";
 
 const TESTIMONIALS = [
   {
@@ -318,6 +321,66 @@ export default async function HomePage() {
             <div className="absolute bottom-5 left-5 rounded-xl bg-white/90 px-4 py-3 text-sage-900 shadow-lg backdrop-blur">
               <p className="text-xs uppercase tracking-[0.12em] text-sage-600">Compromiso</p>
               <p className="font-semibold">Bienestar, agricultores y sostenibilidad</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Instagram: escanear QR + CTA */}
+      <section className="border-t border-sage-200/60 bg-cream-50/50 py-16 md:py-20">
+        <div className="mx-auto max-w-6xl px-3 sm:px-4">
+          <div className="relative overflow-hidden rounded-3xl border border-sage-300/80 shadow-2xl shadow-sage-900/20">
+            <div className="absolute inset-0">
+              <SafeImage
+                src="/img/backgroundsocial.png"
+                alt="Frutas y productos Nutrielys"
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 1152px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-sage-900/75 via-sage-800/65 to-sage-950/80" />
+            </div>
+            <div className="relative flex flex-col items-center gap-10 p-8 md:flex-row md:justify-center md:gap-16 md:p-12">
+            <div className="flex flex-col items-center text-center md:items-start md:text-left">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#E4405F] to-[#F77737] text-white shadow-lg ring-2 ring-white/30">
+                <Instagram className="h-8 w-8" />
+              </div>
+              <h2 className="mt-4 font-serif text-2xl font-medium text-white drop-shadow-md md:text-3xl">
+                Síguenos en Instagram
+              </h2>
+              <p className="mt-2 max-w-md text-sage-100 drop-shadow-sm">
+                Recetas, novedades y detrás de cámaras de Nutrielys. Escanea el código QR o haz clic en el botón para seguirnos.
+              </p>
+              <Button
+                size="lg"
+                asChild
+                className="mt-6 bg-gradient-to-r from-[#E4405F] to-[#F77737] text-white shadow-lg hover:opacity-95"
+              >
+                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2">
+                  <Instagram className="h-5 w-5" />
+                  Ir a Instagram
+                </a>
+              </Button>
+            </div>
+            <div className="flex flex-shrink-0 flex-col items-center">
+              <p className="mb-3 text-sm font-medium text-white/95 drop-shadow-sm">Escanear código QR</p>
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-2xl border-4 border-white/40 bg-white p-3 shadow-xl transition hover:border-white/60 hover:shadow-2xl"
+                aria-label="Abrir Instagram"
+              >
+                <img
+                  src="/img/qr.png"
+                  alt="Código QR para abrir Instagram de Nutrielys"
+                  width={200}
+                  height={200}
+                  className="h-[200px] w-[200px] object-contain"
+                />
+              </a>
+              <p className="mt-3 text-xs text-sage-200">Apunta la cámara al código</p>
+            </div>
             </div>
           </div>
         </div>
