@@ -16,12 +16,11 @@ import type { ProductsSort } from "@/supabase/queries/products";
 
 interface ProductsCatalogProps {
   categories: Category[];
-  whatsappNumber: string;
   /** Productos cargados desde el servidor (creados en el panel). Se muestran al inicio. */
   initialProducts?: Product[];
 }
 
-export function ProductsCatalog({ categories, whatsappNumber, initialProducts = [] }: ProductsCatalogProps) {
+export function ProductsCatalog({ categories, initialProducts = [] }: ProductsCatalogProps) {
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -133,7 +132,6 @@ export function ProductsCatalog({ categories, whatsappNumber, initialProducts = 
             <ProductCard
               key={product.id}
               product={product}
-              whatsappNumber={whatsappNumber}
             />
           ))}
         </div>

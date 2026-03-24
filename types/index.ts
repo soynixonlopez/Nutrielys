@@ -47,7 +47,15 @@ export interface ProductWithImages extends Product {
 export interface Order {
   id: string;
   customer_name: string;
+  customer_last_name: string | null;
+  customer_email: string | null;
   customer_phone: string;
+  customer_address: string | null;
+  customer_province: string | null;
+  customer_corregimiento: string | null;
+  customer_street: string | null;
+  is_pickup: boolean;
+  pickup_point: string | null;
   customer_notes: string | null;
   total: number;
   status: OrderStatus;
@@ -91,6 +99,7 @@ export interface CartItem {
   name: string;
   price: number;
   quantity: number;
+  orderUnit: "cantidad" | "kilo" | "libra";
   imageUrl: string | null;
   slug: string;
 }

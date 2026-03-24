@@ -78,7 +78,15 @@ CREATE INDEX IF NOT EXISTS idx_product_images_product ON public.product_images(p
 CREATE TABLE IF NOT EXISTS public.orders (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   customer_name TEXT NOT NULL,
+  customer_last_name TEXT,
+  customer_email TEXT,
   customer_phone TEXT NOT NULL,
+  customer_address TEXT,
+  customer_province TEXT,
+  customer_corregimiento TEXT,
+  customer_street TEXT,
+  is_pickup BOOLEAN NOT NULL DEFAULT false,
+  pickup_point TEXT,
   customer_notes TEXT,
   total DECIMAL(10, 2) NOT NULL CHECK (total >= 0),
   status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'delivered', 'cancelled')),
@@ -88,6 +96,7 @@ CREATE TABLE IF NOT EXISTS public.orders (
 
 CREATE INDEX IF NOT EXISTS idx_orders_status ON public.orders(status);
 CREATE INDEX IF NOT EXISTS idx_orders_created ON public.orders(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_orders_customer_email ON public.orders(customer_email);
 
 -- ============================================
 -- ORDER_ITEMS
@@ -154,15 +163,21 @@ DROP POLICY IF EXISTS "Orders updatable by admin" ON public.orders;
 CREATE POLICY "Orders updatable by admin" ON public.orders FOR UPDATE USING (
   EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
 );
+DROP POLICY IF EXISTS "Orders deletable by admin" ON public.orders;
+CREATE POLICY "Orders deletable by admin" ON public.orders FOR DELETE USING (
+  EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
+);
 DROP POLICY IF EXISTS "Orders insertable by service" ON public.orders;
-CREATE POLICY "Orders insertable by service" ON public.orders FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Orders insertable by public" ON public.orders;
+CREATE POLICY "Orders insertable by service" ON public.orders FOR INSERT TO service_role WITH CHECK (true);
 
 DROP POLICY IF EXISTS "Order items viewable by admin" ON public.order_items;
 CREATE POLICY "Order items viewable by admin" ON public.order_items FOR SELECT USING (
   EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
 );
 DROP POLICY IF EXISTS "Order items insertable by service" ON public.order_items;
-CREATE POLICY "Order items insertable by service" ON public.order_items FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Order items insertable by public" ON public.order_items;
+CREATE POLICY "Order items insertable by service" ON public.order_items FOR INSERT TO service_role WITH CHECK (true);
 
 DROP POLICY IF EXISTS "Users can view own profile" ON public.profiles;
 CREATE POLICY "Users can view own profile" ON public.profiles FOR SELECT USING (auth.uid() = id);

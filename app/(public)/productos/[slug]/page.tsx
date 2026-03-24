@@ -4,7 +4,6 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/supabase/server";
 import { getProductBySlug, getRelatedProducts } from "@/supabase/queries/products";
-import { getSiteSettings } from "@/supabase/queries/site-settings";
 import { formatPrice } from "@/lib/utils";
 import { ProductDetailClient } from "@/features/products/product-detail-client";
 import { SafeImage } from "@/components/ui/safe-image";
@@ -30,9 +29,8 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function ProductDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const supabase = await createClient();
-  const [product, settings, related] = await Promise.all([
+  const [product, related] = await Promise.all([
     getProductBySlug(supabase, slug),
-    getSiteSettings(supabase),
     (async () => {
       const p = await getProductBySlug(supabase, slug);
       if (!p) return [];
@@ -42,7 +40,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
   if (!product) notFound();
 
-  const whatsappNumber = settings?.whatsapp_number ?? "50760000000";
   const images = [product.image_url, ...(product.product_images ?? []).map((i) => i.image_url)].filter(Boolean) as string[];
 
   return (
@@ -134,11 +131,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
             </div>
           )}
 
-          <div className="mt-8 flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-4">
-            <ProductDetailClient
-              product={product}
-              whatsappNumber={whatsappNumber}
-            />
+          <div className="mt-8">
+            <ProductDetailClient product={product} />
           </div>
         </div>
       </div>

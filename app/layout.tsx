@@ -16,6 +16,7 @@ const dmSerif = DM_Serif_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.nutrielys.com"),
   title: {
     default: "Nutrielys | Snacks naturales deshidratados",
     template: "%s | Nutrielys",
@@ -24,12 +25,31 @@ export const metadata: Metadata = {
     "Frutas y vegetales deshidratados con el sabor de Panamá. Snacks saludables, naturales y deliciosos.",
   keywords: ["frutas deshidratadas", "snacks saludables", "Panamá", "nutrición", "natural"],
   icons: {
-    icon: "/logo/logo.png",
-    shortcut: "/logo/logo.png",
-    apple: "/logo/logo.png",
+    icon: [{ url: "/logo/nutrielyslogo.png", sizes: "512x512", type: "image/png" }],
+    shortcut: ["/logo/nutrielyslogo.png"],
+    apple: [{ url: "/logo/nutrielyslogo.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
     type: "website",
+    title: "Nutrielys | Snacks naturales deshidratados",
+    description:
+      "Frutas y vegetales deshidratados con el sabor de Panamá. Snacks saludables, naturales y deliciosos.",
+    siteName: "Nutrielys",
+    images: [
+      {
+        url: "/logo/nutrielyslogo.png",
+        width: 512,
+        height: 512,
+        alt: "Logo de Nutrielys",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: "Nutrielys | Snacks naturales deshidratados",
+    description:
+      "Frutas y vegetales deshidratados con el sabor de Panamá. Snacks saludables, naturales y deliciosos.",
+    images: ["/logo/nutrielyslogo.png"],
   },
 };
 
@@ -38,9 +58,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.nutrielys.com";
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Nutrielys",
+    url: siteUrl,
+    logo: `${siteUrl}/logo/nutrielyslogo.png`,
+  };
+
   return (
     <html lang="es" className={`${inter.variable} ${dmSerif.variable}`}>
-      <body className="min-h-screen font-sans antialiased">{children}</body>
+      <body className="min-h-screen font-sans antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

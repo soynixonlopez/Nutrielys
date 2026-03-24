@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { MessageCircle } from "lucide-react";
 import { SafeImage } from "@/components/ui/safe-image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -10,15 +9,10 @@ import type { Product } from "@/types";
 
 interface ProductCardProps {
   product: Product;
-  whatsappNumber: string;
-  onWhatsAppClick?: (product: Product, quantity: number) => void;
 }
 
-export function ProductCard({ product, whatsappNumber, onWhatsAppClick }: ProductCardProps) {
+export function ProductCard({ product }: ProductCardProps) {
   const inStock = product.stock > 0;
-  const message = `¡Hola! Me interesa *${product.name}*. ¿Podrían darme más información?`;
-
-  const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/\D/g, "").replace(/^0/, "")}?text=${encodeURIComponent(message)}`;
 
   return (
     <Card className="group overflow-hidden rounded-2xl border-sage-200/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-sage-300/30">
@@ -65,21 +59,13 @@ export function ProductCard({ product, whatsappNumber, onWhatsAppClick }: Produc
         <p className="mt-1 text-xs text-sage-600">
           {inStock ? `Disponible (${product.stock})` : "Agotado"}
         </p>
+        <p className="mt-1 text-xs text-sage-600">
+          Venta por unidades. Para pedidos por kilo o libra, consultar directamente.
+        </p>
       </CardContent>
-      <CardFooter className="flex gap-2 p-4 pt-0">
-        <Button variant="outline" size="sm" className="flex-1" asChild>
-          <Link href={`/productos/${product.slug}`}>Ver detalle</Link>
-        </Button>
-        <Button
-          variant="whatsapp"
-          size="sm"
-          className="flex-1"
-          asChild
-        >
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            <MessageCircle className="h-4 w-4" />
-            Pedir
-          </a>
+      <CardFooter className="p-4 pt-0">
+        <Button size="sm" className="w-full" asChild>
+          <Link href={`/productos/${product.slug}`}>Pedir producto</Link>
         </Button>
       </CardFooter>
     </Card>

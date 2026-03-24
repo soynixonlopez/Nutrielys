@@ -30,7 +30,7 @@ export function Header() {
           aria-label="Nutrielys - Ir al inicio"
         >
           <Image
-            src="/logo/logo.png"
+            src="/logo/nutrielyslogo.png"
             alt="Nutrielys"
             width={152}
             height={148}

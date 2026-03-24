@@ -1,6 +1,5 @@
 import { createClient } from "@/supabase/server";
 import { getCategories } from "@/supabase/queries/categories";
-import { getSiteSettings } from "@/supabase/queries/site-settings";
 import { getProducts } from "@/supabase/queries/products";
 import { ProductsCatalog } from "@/features/products/products-catalog";
 
@@ -13,13 +12,10 @@ export const metadata = {
 
 export default async function ProductosPage() {
   const supabase = await createClient();
-  const [categories, settings, initialProducts] = await Promise.all([
+  const [categories, initialProducts] = await Promise.all([
     getCategories(supabase),
-    getSiteSettings(supabase),
     getProducts(supabase, { isActive: true }, "newest"),
   ]);
-
-  const whatsappNumber = settings?.whatsapp_number ?? "50760000000";
 
   return (
     <div className="mx-auto max-w-6xl px-3 py-8 sm:px-4 md:py-12">
@@ -33,7 +29,6 @@ export default async function ProductosPage() {
       </div>
       <ProductsCatalog
         categories={categories}
-        whatsappNumber={whatsappNumber}
         initialProducts={initialProducts}
       />
     </div>

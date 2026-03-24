@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Evita conflictos de limpieza de .next en rutas sincronizadas por OneDrive (Windows)
+  distDir: ".next-dev",
   images: {
     remotePatterns: [
       {

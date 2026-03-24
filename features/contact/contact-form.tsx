@@ -1,19 +1,57 @@
+ "use client";
+
+import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const CONTACT_EMAIL = "info@nutrielys.com";
-
 export function ContactForm() {
+  const [formStartedAt] = useState<number>(() => Date.now());
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [feedback, setFeedback] = useState<string | null>(null);
+  const [feedbackType, setFeedbackType] = useState<"success" | "error" | null>(null);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const payload = {
+      name: String(formData.get("name") ?? "").trim(),
+      email: String(formData.get("email") ?? "").trim(),
+      message: String(formData.get("message") ?? "").trim(),
+      website: String(formData.get("website") ?? ""),
+      form_started_at: formStartedAt,
+    };
+
+    setIsSubmitting(true);
+    setFeedback(null);
+    setFeedbackType(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("No se pudo enviar");
+      }
+
+      form.reset();
+      setFeedback("Mensaje enviado correctamente. Te responderemos pronto.");
+      setFeedbackType("success");
+    } catch {
+      setFeedback("No pudimos enviar tu mensaje ahora. Intenta nuevamente.");
+      setFeedbackType("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
-    <form
-      action={`https://formsubmit.co/${CONTACT_EMAIL}`}
-      method="POST"
-      className="mt-4 space-y-4"
-    >
-      <input type="hidden" name="_subject" value="Nuevo mensaje desde Contacto - Nutrielys" />
-      <input type="hidden" name="_captcha" value="false" />
-      <input type="hidden" name="_template" value="table" />
+    <form onSubmit={handleSubmit} className="mt-4 space-y-4">
       <div>
         <Label htmlFor="name">Nombre</Label>
         <Input id="name" name="name" className="mt-1" required />
@@ -32,10 +70,20 @@ export function ContactForm() {
           required
         />
       </div>
-      <Button type="submit">Enviar mensaje</Button>
-      <p className="text-xs text-sage-600">
-        El mensaje se enviará directamente a {CONTACT_EMAIL}.
-      </p>
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        className="hidden"
+        aria-hidden="true"
+      />
+      <Button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "Enviando..." : "Enviar mensaje"}
+      </Button>
+      {feedback ? (
+        <p className={`text-xs ${feedbackType === "success" ? "text-emerald-700" : "text-rose-700"}`}>{feedback}</p>
+      ) : null}
     </form>
   );
 }

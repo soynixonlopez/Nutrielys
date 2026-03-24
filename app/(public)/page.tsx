@@ -14,19 +14,18 @@ import {
   Instagram,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { createClient } from "@/supabase/server";
 import { getSiteSettings } from "@/supabase/queries/site-settings";
 import { getFeaturedProducts } from "@/supabase/queries/products";
 import { formatPrice } from "@/lib/utils";
 import { SafeImage } from "@/components/ui/safe-image";
+import { NewsletterForm } from "@/features/newsletter/newsletter-form";
 
 export const dynamic = "force-dynamic";
 
 const HERO_IMAGE = "/img/bannermain.png";
 const BENEFITS_IMAGE = "/img/beneficiosnutrielys.jpg";
 const ABOUT_IMAGE = "/img/sobrenutrielys.jpg";
-const CONTACT_EMAIL = "info@nutrileys.com";
 /** URL del perfil de Instagram del negocio. Cámbiala por la de tu cuenta. */
 const INSTAGRAM_URL = "https://www.instagram.com/nutrielys/";
 
@@ -436,26 +435,7 @@ export default async function HomePage() {
               <p className="mt-3 max-w-xl text-sage-100">Escribe tu correo y presiona el botón para suscribirte.</p>
             </div>
 
-            <form
-              action={`https://formsubmit.co/${CONTACT_EMAIL}`}
-              method="POST"
-              className="rounded-2xl border border-white/25 bg-white/10 p-4 md:p-5"
-            >
-              <input type="hidden" name="_subject" value="Nueva suscripción Newsletter - Nutrielys" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_template" value="table" />
-              <Input
-                id="newsletter-email"
-                name="email"
-                type="email"
-                required
-                placeholder="Ingresa tu correo"
-                className="mt-2 h-11 border-white/30 bg-white/95 text-sage-900 placeholder:text-sage-500"
-              />
-              <Button size="lg" className="mt-3 h-11 w-full bg-white px-6 text-sage-900 hover:bg-sage-100">
-                Suscribirme
-              </Button>
-            </form>
+            <NewsletterForm />
           </div>
         </div>
       </section>
