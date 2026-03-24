@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Evita conflictos de limpieza de .next en rutas sincronizadas por OneDrive (Windows)
-  distDir: ".next-dev",
+  // En Vercel debe usarse el directorio por defecto (.next); si no, falla routes-manifest.
+  // En local (p. ej. OneDrive en Windows) se puede usar .next-dev para evitar conflictos de sync.
+  ...(process.env.VERCEL ? {} : { distDir: ".next-dev" }),
   images: {
     remotePatterns: [
       {
