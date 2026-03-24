@@ -2,7 +2,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { FloatingWhatsApp } from "@/components/layout/floating-whatsapp";
 import { CartProvider } from "@/hooks/use-cart";
-import { createClient } from "@/supabase/server";
+import { createPublicSupabaseClient } from "@/supabase/public";
 import { getSiteSettings } from "@/supabase/queries/site-settings";
 
 export default async function PublicLayout({
@@ -12,7 +12,7 @@ export default async function PublicLayout({
 }) {
   let whatsappNumber = "50760000000";
   try {
-    const supabase = await createClient();
+    const supabase = createPublicSupabaseClient();
     const settings = await getSiteSettings(supabase);
     whatsappNumber = settings?.whatsapp_number ?? whatsappNumber;
   } catch (err) {

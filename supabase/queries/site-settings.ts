@@ -1,7 +1,8 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import type { SiteSettings } from "@/types";
 
 export async function getSiteSettings(
-  supabase: Awaited<ReturnType<typeof import("../server").createClient>>
+  supabase: Pick<SupabaseClient, "from">
 ): Promise<SiteSettings | null> {
   const { data, error } = await supabase
     .from("site_settings")
